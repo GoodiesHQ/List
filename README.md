@@ -17,7 +17,10 @@ If a preprocessor definition for `LIST_TYPE` is used, the provided type will be 
 #endif
 typedef LIST_TYPE val;
 ```
-
+#### callback_t
+```c
+typedef void(*callback_t)(LIST_TYPE);
+```
 #### status
 ```c
 enum _status
@@ -72,9 +75,16 @@ status list_swap(plist l, size_t index1, size_t index2);
 status list_reverse(plist l);
 ```
 #### Display the list
+This just calls `printf` on each value in the list. Use `list_map` for a more customized display.
 ```c
 void list_print(plist l, const char* val_fmt);
 void list_print_reverse(plist l, const char* val_fmt);
+```
+#### Iterating the list
+```c
+pnode list_iter(plist l);
+bool list_iter_next(pnode *n);
+void list_map(callback_t callback, plist l);
 ```
 #### Adding elements to a list
 ```c
@@ -91,7 +101,7 @@ status list_remove_at(plist l, size_t index);
 ## Useful Macros
 These macros will be of use if you choose to use this.
 #### LIST_LOCK(list\*)
-This will acquire the pthread mutex. Use this prior to iterating over the items in a list, as the size may change between the time you get the size and the time you start iterating if you do not lock it.
+This will acquire the pthread mutex. Use this prior to iterating over the items in a list **Except if using list_map**, as the size may change between the time you get the size and the time you start iterating if you do not lock it.
 ```c
 #define LIST_LOCK(l) pthread_mutex_lock(&((l)->mu))
 ```
