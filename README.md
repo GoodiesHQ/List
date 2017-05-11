@@ -55,7 +55,7 @@ struct _node
 
 ## Functions
 
-These are hte functions available to you. By the names, it should be fairly obvious what they do.
+These are the functions available to you. By the names, it should be fairly obvious what they do.
 
 #### Initialization and deconstruction of a list
 ```c
