@@ -5,7 +5,7 @@
 static const char *val_fmt = "%d";
 bool debugging = false;
 
-void list_status(status s){
+void list_print_status(status s){
     switch(s)
     {
         case SUCCESS:

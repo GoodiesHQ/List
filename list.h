@@ -51,7 +51,7 @@ struct _node
 #define LIST_DESTROY_MUTEX(l) pthread_mutex_destroy(&((l)->mu))
 
 // initialization and deconstruction of a list
-void list_status(status);
+void list_print_status(status);
 plist list_new(void);
 plist list_copy(plist);
 pnode node_new(val value);
