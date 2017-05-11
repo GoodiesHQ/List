@@ -232,6 +232,34 @@ void list_print_reverse(plist l, const char* val_fmt){
     LIST_UNLOCK(l);
 }
 
+
+pnode list_iter(plist l)
+{
+    return l->head;
+    return NULL;
+}
+
+bool list_iter_next(pnode *n)
+{
+    pnode nd = *n;
+    *n = nd->next;
+    return *n != NULL;
+}
+
+void list_map(callback_t callback, plist l)
+{
+    LIST_LOCK(l);
+    pnode it = list_iter(l);
+    if(it)
+    {
+        do
+        {
+            callback(it->value);
+        } while(list_iter_next(&it));
+    }
+    LIST_UNLOCK(l);
+}
+
 status list_append(plist l, val value)
 {
     pnode n = node_new(value);

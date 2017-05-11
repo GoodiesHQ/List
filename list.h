@@ -44,6 +44,8 @@ struct _node
     val value;
 };
 
+typedef void (*callback_t)(val);
+
 #define LIST_LOCK(l) pthread_mutex_lock(&((l)->mu))
 #define LIST_UNLOCK(l) pthread_mutex_unlock(&((l)->mu))
 #define LIST_INC_SIZE(l) (l)->size++
@@ -68,6 +70,11 @@ status list_reverse(plist l);
 // display the list
 void list_print(plist l, const char* val_fmt);
 void list_print_reverse(plist l, const char* val_fmt);
+
+// iterating the list
+pnode list_iter(plist l);
+bool list_iter_next(pnode *n);
+void list_map(callback_t callback, plist l);
 
 // adding elements to a list
 status list_append(plist l, val value);

@@ -1,27 +1,44 @@
+typedef struct _foo
+{
+    char *key;
+    char *value;
+} foo;
+
+#define LIST_TYPE foo*
+
+
 #include "list.h"
 
+void printfoo(foo *f)
+{
+    printf("(%p): %s : %s\n", f, f->key, f->value);
+}
+
 int main(){
-    plist lst1 = list_new();
-    list_append(lst1, 10);
-    list_append(lst1, 20);
-    list_append(lst1, 30);
+    plist l = list_new();
+    foo *f1 = malloc(sizeof(foo));
+    f1->key = "KeyA";
+    f1->value = "Val1";
 
-    plist lst2 = list_copy(lst1);
+    foo *f2 = malloc(sizeof(foo));
+    f2->key = "KeyB";
+    f2->value = "Val2";
 
-    int *pint;
-    list_reverse(lst2);
-    list_get_ptr(lst2, 0, &pint);
+    foo *f3 = malloc(sizeof(foo));
+    f3->key = "KeyC";
+    f3->value = "Val3";
 
-    (*pint)++;
+    list_append(l, f1);
+    list_append(l, f2);
+    list_append(l, f3);
 
-    char *fmt = "%d ";
-    list_print(lst1, fmt);
-    printf("%p\n", lst1);
-    list_print(lst2, fmt);
-    printf("%p\n", lst2);
+    list_reverse(l);
+    list_map(&printfoo, l);
+    list_del(&l);
 
-    list_del(&lst1);
-    list_del(&lst2);
+    free(f1);
+    free(f2);
+    free(f3);
 
     return 0;
 }
