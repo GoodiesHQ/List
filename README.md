@@ -93,17 +93,21 @@ These macros will be of use if you choose to use this.
 #### LIST_LOCK(list\*)
 This will acquire the pthread mutex. Use this prior to iterating over the items in a list, as the size may change between the time you get the size and the time you start iterating if you do not lock it.
 ```c
-#define LIST_LOCK(l) pthread_mutex_lock(&((l)->mu))```
+#define LIST_LOCK(l) pthread_mutex_lock(&((l)->mu))
+```
 #### LIST_UNLOCK(list\*)
 Similarly, this will release the lock. Within the functions, all locks are paired with an unlock. No function should leave a lock count with a value different to what it received.
 ```c
-#define LIST_UNLOCK(l) pthread_mutex_unlock(&((l)->mu))```
+#define LIST_UNLOCK(l) pthread_mutex_unlock(&((l)->mu))
+```
 ### LIST_INC_SIZE(list\*) and LIST_DEC_SIZE(list\*)
 **Do not use this** - These are used internally to control the size of the mutex.
 ```c
 #define LIST_INC_SIZE(l) (l)->size++
-#define LIST_DEC_SIZE(l) (l)->size--```
+#define LIST_DEC_SIZE(l) (l)->size--
+```
 ### LIST_DESTROY_MUTEX(list\*)
 **Do not use this** - Destroys the list's mutex. This is executed upon the deconstruction of a list.
 ```c
-#define LIST_DESTROY_MUTEX(l) pthread_mutex_destroy(&((l)->mu))```
+#define LIST_DESTROY_MUTEX(l) pthread_mutex_destroy(&((l)->mu))
+```
