@@ -1,5 +1,3 @@
-#define LIST_VAL int
-
 #include "list.h"
 
 static const char *val_fmt = "%d";
