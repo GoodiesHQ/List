@@ -1,8 +1,5 @@
 #include "list.h"
 
-static const char *val_fmt = "%d";
-bool debugging = false;
-
 void list_print_status(status s){
     switch(s)
     {
@@ -153,7 +150,6 @@ status list_get_node(plist l, size_t index, pnode *n)
 status list_swap(plist l, size_t index1, size_t index2){
     LIST_LOCK(l);
     pnode n1 = NULL, n2 = NULL;
-    printf("Swapping %ul - %ul\n", index1, index2);
     val tmp;
     status s;
 
