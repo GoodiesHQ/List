@@ -26,7 +26,7 @@ void list_print_status(status s){
 
 plist list_new(void)
 {
-    plist new_list = malloc(sizeof(*new_list));
+    plist new_list = calloc(1, sizeof(*new_list));
     if(!new_list)
     {
         return NULL;
@@ -54,7 +54,7 @@ plist list_copy(plist p)
 // construct a new node based on the provided value
 pnode node_new(val value)
 {
-    pnode new_node = malloc(sizeof(*new_node));
+    pnode new_node = calloc(1, sizeof(*new_node));
     if(!new_node)
     {
         return NULL;
@@ -155,6 +155,7 @@ status list_get_node(plist l, size_t index, pnode *n)
 status list_swap(plist l, size_t index1, size_t index2){
     LIST_LOCK(l);
     pnode n1 = NULL, n2 = NULL;
+    printf("Swapping %ul - %ul\n", index1, index2);
     val tmp;
     status s;
 

@@ -12,4 +12,4 @@ $(TARGET): $(SRC)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 clean:
-	$(RM) $(TARGET)
+	@$(RM) $(TARGET)
