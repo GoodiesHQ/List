@@ -11,29 +11,46 @@
 #define LIST_TYPE int
 #endif
 typedef LIST_TYPE val;
-
-extern bool debugging;
-
-typedef enum _status status;
 typedef struct _list list, *plist;
 typedef struct _node node, *pnode;
 typedef val(*list_func)(val v1, val v2);
 
-enum _status
+
+#ifdef WIN32
+#include <Windows.h>
+typedef HANDLE mutex_t;
+#define LIST_LOCK(l) WaitForSingleObject((l)->mu, INFINITE)
+#define LIST_UNLOCK(l) ReleaseMutex((l)->mu)
+#define LIST_DESTROY_MUTEX(l) 
+#else
+typedef pthread_mutex_t mutex_t;
+#define LIST_LOCK(l) pthread_mutex_lock(&((l)->mu))
+#define LIST_UNLOCK(l) pthread_mutex_unlock(&((l)->mu))
+#define LIST_DESTROY_MUTEX(l) pthread_mutex_destroy(&((l)->mu))
+#endif
+
+#define LIST_INC_SIZE(l) (l)->size++
+#define LIST_DEC_SIZE(l) (l)->size--
+
+extern bool debugging;
+
+typedef enum _status
 {
     SUCCESS,
     MEMORY_FAILURE,
     OUT_OF_BOUNDS,
     FAILURE,
-};
+} status;
 
 struct _list
 {
     pnode head;
     pnode tail;
     size_t size;
-    pthread_mutex_t mu;
+    mutex_t mu;
+#ifndef WIN32
     pthread_mutexattr_t mu_attr;
+#endif
 };
 
 struct _node
@@ -45,12 +62,6 @@ struct _node
 };
 
 typedef void (*callback_t)(val);
-
-#define LIST_LOCK(l) pthread_mutex_lock(&((l)->mu))
-#define LIST_UNLOCK(l) pthread_mutex_unlock(&((l)->mu))
-#define LIST_INC_SIZE(l) (l)->size++
-#define LIST_DEC_SIZE(l) (l)->size--
-#define LIST_DESTROY_MUTEX(l) pthread_mutex_destroy(&((l)->mu))
 
 // initialization and deconstruction of a list
 void list_print_status(status);

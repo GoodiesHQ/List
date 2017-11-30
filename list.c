@@ -66,9 +66,14 @@ void list_init(plist l)
 {
     l->head=NULL;
     l->tail=NULL;
+#ifdef WIN32
+    // windows mutexes are already reentrant
+    l->mu = CreateMutex(NULL, FALSE, NULL);
+#else
     pthread_mutexattr_init(&l->mu_attr);
     pthread_mutexattr_settype(&l->mu_attr, PTHREAD_MUTEX_RECURSIVE);
     pthread_mutex_init(&l->mu, &l->mu_attr);
+#endif
 }
 
 // free a list and delete the 
