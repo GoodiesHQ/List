@@ -1,6 +1,6 @@
 CC=gcc
 RM=rm
-CFLAGS=-I. -Wall -ggdb
+CFLAGS=-I. -Wall -ggdb -Wunused-function
 TARGET=list
 LIBS = -lpthread
 
